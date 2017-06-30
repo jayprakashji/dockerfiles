@@ -41,3 +41,7 @@ fi;
 
 # exec entrypoint of php:x.x-apache
 exec "apache2-foreground"
+
+if [ ! -z "${DOCKER_DEBUG}" ]; then
+	sleep 600;
+fi;
