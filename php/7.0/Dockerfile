@@ -42,7 +42,7 @@ RUN apt-get update \
     && docker-php-ext-enable redis \
 # memcached
     && apt-get install -y libmemcached-dev zlib1g-dev \
-    && pecl install memcached-2.2.0 \
+    && pecl install memcached \
     && docker-php-ext-enable memcached \
     \
 # Enable Apache mod_rewrite
