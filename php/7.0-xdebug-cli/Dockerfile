@@ -73,6 +73,8 @@ RUN pecl config-set preferred_state beta \
     && pecl install -o -f xdebug \
     && rm -rf /tmp/pear \
     && pecl config-set preferred_state stable
+    && docker-php-ext-enable xdebug
+
 COPY ./99-xdebug.ini /usr/local/etc/php/conf.d/
 
 
