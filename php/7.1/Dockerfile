@@ -38,7 +38,7 @@ RUN apt-get update \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-install ldap \
 # redis
-    && pecl install redis-3.1.0 \
+    && pecl install redis \
     && docker-php-ext-enable redis \
 # memcached
     && apt-get install -y libmemcached-dev zlib1g-dev \

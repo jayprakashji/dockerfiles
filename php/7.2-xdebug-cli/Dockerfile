@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.2-rc-apache
 
 RUN apt-get update \
 # gd
@@ -7,9 +7,6 @@ RUN apt-get update \
     && docker-php-ext-install -j$(nproc) gd \
 # iconv
     && docker-php-ext-install -j$(nproc) iconv \
-# mcrypt
-    && apt-get install -y --no-install-recommends libmcrypt-dev \
-    && docker-php-ext-install -j$(nproc) mcrypt \
 # intl
     && apt-get install -y --no-install-recommends libicu-dev \
     && docker-php-ext-install intl \
@@ -38,7 +35,7 @@ RUN apt-get update \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
     && docker-php-ext-install ldap \
 # redis
-    && pecl install redis-3.1.0 \
+    && pecl install redis \
     && docker-php-ext-enable redis \
 # memcached
     && apt-get install -y libmemcached-dev zlib1g-dev \
@@ -70,7 +67,7 @@ COPY ./999-php.ini /usr/local/etc/php/conf.d/
 
 ENV XDEBUG_ENABLE 1
 RUN pecl config-set preferred_state beta \
-    && pecl install -o -f xdebug \
+    && pecl install -o -f https://github.com/xdebug/xdebug/archive/master.tar.gz \
     && rm -rf /tmp/pear \
     && pecl config-set preferred_state stable \
     && docker-php-ext-enable xdebug
