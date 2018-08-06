@@ -69,11 +69,8 @@ COPY ./999-php.ini /usr/local/etc/php/conf.d/
 
 
 ENV XDEBUG_ENABLE 1
-RUN pecl config-set preferred_state beta \
-    && pecl install -o -f xdebug \
-    && rm -rf /tmp/pear \
-    && pecl config-set preferred_state stable \
-    && docker-php-ext-enable xdebug
+RUN pecl install -o -f xdebug-2.5.5 \
+    && rm -rf /tmp/pear
 
 COPY ./99-xdebug.ini /usr/local/etc/php/conf.d/
 
