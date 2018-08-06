@@ -70,7 +70,8 @@ COPY ./999-php.ini /usr/local/etc/php/conf.d/
 
 ENV XDEBUG_ENABLE 1
 RUN pecl install -o -f xdebug-2.5.5 \
-    && rm -rf /tmp/pear
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable xdebug
 
 COPY ./99-xdebug.ini /usr/local/etc/php/conf.d/
 
