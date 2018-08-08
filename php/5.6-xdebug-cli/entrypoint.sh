@@ -19,7 +19,6 @@ a2enconf "document-root-directory.conf"
 # Enable XDebug if needed
 if [ "$XDEBUG_ENABLE" = "1" ]; then
     docker-php-ext-enable xdebug
-    mv /usr/local/etc/php/conf.d/99-xdebug.ini.disabled /usr/local/etc/php/conf.d/99-xdebug.ini
     # Configure XDebug remote host
     if [ -z "$HOST_IP" ]; then
         # Allows to set HOST_IP by env variable because could be different from the one which come from ip route command
