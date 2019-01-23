@@ -39,6 +39,10 @@ if [ "$SSMTP_AUTH_PASS" ]; then
     echo "AuthPass=$SSMTP_AUTH_PASS" >> /etc/ssmtp/ssmtp.conf
 fi;
 
+if [ ! -z "${EXTRA_EXEC_SCRIPT}" ] && [ -f "${EXTRA_EXEC_SCRIPT}" ]; then
+    . "${EXTRA_EXEC_SCRIPT}"
+fi;
+
 # exec entrypoint of php:x.x-apache
 exec "apache2-foreground"
 
