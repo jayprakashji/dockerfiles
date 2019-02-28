@@ -44,6 +44,8 @@ RUN apt-get update \
     \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
+# wkhtmltopdf
+    && apt-get install libxrender1 wkhtmltopdf
 # cleanup
     && rm -rf /var/lib/apt/lists/*
 
