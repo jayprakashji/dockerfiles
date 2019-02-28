@@ -45,7 +45,7 @@ RUN apt-get update \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
 # wkhtmltopdf
-    && apt-get install libxrender1 wkhtmltopdf
+    && curl -sLO https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb && apt install -y ./wkhtmltox_0.12.5-1.stretch_amd64.deb \
 # cleanup
     && rm -rf /var/lib/apt/lists/*
 
