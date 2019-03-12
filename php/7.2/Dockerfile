@@ -58,9 +58,9 @@ RUN apt-get update \
 
 RUN apt-get update \
 # wkhtmltopdf
-    && apt install wget \
+    && apt install -y wget \
     && wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz  && tar vxf wkhtmltox-0.12.3_linux-generic-amd64.tar.xz && cp wkhtmltox/bin/wk* /usr/bin/ \
-    && apt install libssl1.0-dev \
+    && apt install -y libssl1.0-dev \
 # cleanup
     && rm -rf /var/lib/apt/lists/*
 
