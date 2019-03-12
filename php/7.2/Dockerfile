@@ -44,8 +44,6 @@ RUN apt-get update \
     \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
-# wkhtmltopdf
-    && curl -sLO https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb && apt install -y ./wkhtmltox_0.12.5-1.stretch_amd64.deb \
 # cleanup
     && rm -rf /var/lib/apt/lists/*
 
@@ -57,6 +55,14 @@ RUN apt-get update \
     && echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini \
 # cleanup
     && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update \
+# wkhtmltopdf
+    && wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz  && tar vxf wkhtmltox-0.12.3_linux-generic-amd64.tar.xz && cp wkhtmltox/bin/wk* /usr/bin/ \
+    && apt install libssl1.0-dev
+# cleanup
+    && rm -rf /var/lib/apt/lists/*
+
 
 
 # Default date.timezone
