@@ -64,10 +64,6 @@ RUN apt-get update \
 # cleanup
     && rm -rf /var/lib/apt/lists/*
 
-$ wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz 67
-$ tar vxf wkhtmltox-0.12.3_linux-generic-amd64.tar.xz
-$ sudo cp wkhtmltox/bin/wk* /usr/bin/
-
 # Default date.timezone
 ENV PHP_TIMEZONE Europe/Bratislava
 # Default DocumentRoot
