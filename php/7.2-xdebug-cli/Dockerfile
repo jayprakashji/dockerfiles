@@ -1,6 +1,10 @@
 FROM php:7.2-apache
 
-RUN apt-get update \
+RUN apt-get update -qq  \
+# zip
+    && apt-get install -y --no-install-recommends unzip \
+# chrome driver required
+    && apt-get install -y --no-install-recommends libnss3 libgconf-2-4 \
 # gd
     && apt-get install -y --no-install-recommends libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -45,25 +49,39 @@ RUN apt-get update \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
 # cleanup
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && truncate -s 0 /var/log/*log
 
 # Install ssmtp Mail Transfer Agent
-RUN apt-get update \
+RUN apt-get update -qq  \
     && apt-get install -y --no-install-recommends ssmtp \
     && apt-get clean \
     && echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf \
     && echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini \
 # cleanup
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && truncate -s 0 /var/log/*log
 # Install ssmtp Mail Transfer Agent
 
-RUN apt-get update \
+RUN apt update -qq \
 # wkhtmltopdf
-    && apt install -y wget \
-    && wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz  && tar vxf wkhtmltox-0.12.3_linux-generic-amd64.tar.xz && cp wkhtmltox/bin/wk* /usr/bin/ \
-    && apt install -y libssl1.0-dev \
+    && apt install -y wget xz-utils libxrender1 fontconfig libjpeg62-turbo libxext6  xfonts-base xfonts-75dpi \
+    && wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz \
+    && tar vxf wkhtmltox-0.12.3_linux-generic-amd64.tar.xz \
+    && cp wkhtmltox/bin/wk* /usr/bin/ \
 # cleanup
-    && rm -rf /var/lib/apt/lists/*
+    && rm wkhtmltox-0.12.3_linux-generic-amd64.tar.xz \
+    && rm -rf wkhtmltox \
+    && apt-get remove -y xz-utils \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && truncate -s 0 /var/log/*log
+
 
 # Default date.timezone
 ENV PHP_TIMEZONE Europe/Bratislava
@@ -80,15 +98,14 @@ RUN pecl install -o -f xdebug \
 
 COPY ./99-xdebug.ini /usr/local/etc/php/conf.d/
 
+RUN openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/ssl/private/ssl-cert-snakeoil.key -out /etc/ssl/certs/ssl-cert-snakeoil.pem -subj "/C=AT/ST=Vienna/L=Vienna/O=Security/OU=Development/CN=example.com"
 
-
-
-
-
+RUN a2ensite default-ssl
+RUN a2enmod ssl
 
 # For debug
 # Debug tools
-RUN apt-get update \
+RUN apt-get update -qq \
     && apt-get install -y --no-install-recommends \
     mysql-client \
     less \
@@ -97,11 +114,15 @@ RUN apt-get update \
     mc \
     openssh-client \
     nmap \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && truncate -s 0 /var/log/*log
+
 COPY ./index.php /var/www/html/index.php
 
-
-
+# http, https, xdebug
+EXPOSE 80 443 9000
 
 
 # Start!
