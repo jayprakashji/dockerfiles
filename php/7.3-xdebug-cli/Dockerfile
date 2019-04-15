@@ -1,6 +1,6 @@
-FROM php:7.0-apache
+FROM php:7.3-apache
 
-RUN apt-get update \
+RUN apt-get update -qq  \
 # zip
     && apt-get install -y -qq --no-install-recommends unzip \
 # chrome driver required
@@ -11,9 +11,6 @@ RUN apt-get update \
     && docker-php-ext-install -j$(nproc) gd \
 # iconv
     && docker-php-ext-install -j$(nproc) iconv \
-# mcrypt
-    && apt-get install -y -qq --no-install-recommends libmcrypt-dev \
-    && docker-php-ext-install -j$(nproc) mcrypt \
 # intl
     && apt-get install -y -qq --no-install-recommends libicu-dev \
     && docker-php-ext-install intl \
@@ -29,6 +26,7 @@ RUN apt-get update \
 # opcache
     && docker-php-ext-install opcache \
 # zip
+    && apt-get install -y -qq --no-install-recommends libzip-dev \
     && docker-php-ext-install zip \
 # git
     && apt-get install -y -qq --no-install-recommends git \
@@ -64,7 +62,7 @@ RUN apt-get update \
     && truncate -s 0 /var/log/*log
 
 # Install ssmtp Mail Transfer Agent
-RUN apt-get update \
+RUN apt-get update -qq  \
     && apt-get install -y -qq --no-install-recommends ssmtp \
     && apt-get clean \
     && echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf \
@@ -106,7 +104,6 @@ RUN pecl install -o -f xdebug \
 
 COPY ./99-xdebug.ini /usr/local/etc/php/conf.d/
 
-
 RUN openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/ssl/private/ssl-cert-snakeoil.key -out /etc/ssl/certs/ssl-cert-snakeoil.pem -subj "/C=AT/ST=Vienna/L=Vienna/O=Security/OU=Development/CN=example.com"
 
 RUN a2ensite default-ssl
@@ -116,8 +113,8 @@ ADD supervisor.conf /etc/supervisor.conf
 
 # For debug
 # Debug tools
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
+RUN apt-get update -qq \
+    && apt-get install -y -qq --no-install-recommends \
     mysql-client \
     less \
     vim \
