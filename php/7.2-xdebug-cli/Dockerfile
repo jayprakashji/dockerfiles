@@ -45,6 +45,11 @@ RUN apt-get update -qq  \
     && apt-get install -y -qq --no-install-recommends libmemcached-dev zlib1g-dev \
     && pecl install memcached \
     && docker-php-ext-enable memcached \
+# Install APCu and APC backward compatibility
+    && pecl install apcu \
+    && pecl install apcu_bc \
+    && docker-php-ext-enable apcu --ini-name 10-docker-php-ext-apcu.ini \
+    && docker-php-ext-enable apc --ini-name 20-docker-php-ext-apc.ini \
 # cron
     && apt-get install -y -qq --no-install-recommends cron \
 # supervisor
