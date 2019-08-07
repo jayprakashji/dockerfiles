@@ -120,7 +120,7 @@ ADD supervisor.conf /etc/supervisor.conf
 # Debug tools
 RUN apt-get update -qq \
     && apt-get install -y -qq --no-install-recommends \
-    mysql-client \
+#    mysql-client \
     less \
     vim \
     git \
