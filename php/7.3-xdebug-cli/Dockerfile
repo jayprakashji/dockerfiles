@@ -66,17 +66,17 @@ RUN apt-get update -qq  \
     && rm -rf /var/lib/apt/lists/* \
     && truncate -s 0 /var/log/*log
 
-# Install ssmtp Mail Transfer Agent
-RUN apt-get update -qq  \
-    && apt-get install -y -qq --no-install-recommends ssmtp \
-    && apt-get clean \
-    && echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf \
-    && echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini \
-# cleanup
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && truncate -s 0 /var/log/*log
+## Install ssmtp Mail Transfer Agent
+#RUN apt-get update -qq  \
+#    && apt-get install -y -qq --no-install-recommends ssmtp \
+#    && apt-get clean \
+#    && echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf \
+#    && echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini \
+## cleanup
+#    && apt-get autoremove -y \
+#    && apt-get clean \
+#    && rm -rf /var/lib/apt/lists/* \
+#    && truncate -s 0 /var/log/*log
 
 RUN apt update -qq \
 # wkhtmltopdf
