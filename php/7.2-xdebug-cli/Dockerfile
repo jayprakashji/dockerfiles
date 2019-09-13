@@ -59,6 +59,8 @@ RUN apt-get update -qq  \
     \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
+# iproute - ip command
+    && apt-get install -y -qq --no-install-recommends iproute  \
 # cleanup
     && apt-get autoremove -y \
     && apt-get clean \

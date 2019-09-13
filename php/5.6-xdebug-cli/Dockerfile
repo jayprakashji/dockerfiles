@@ -47,6 +47,8 @@ RUN apt-get update \
     \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
+# iproute - ip command
+    && apt-get install -y -qq --no-install-recommends iproute  \
 # cleanup
     && rm -rf /var/lib/apt/lists/*
 
