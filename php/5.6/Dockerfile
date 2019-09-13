@@ -48,7 +48,7 @@ RUN apt-get update \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
 # iproute - ip command
-    && apt-get install -y -qq --no-install-recommends iproute  \
+    && apt-get install -y -qq --no-install-recommends iproute2  \
 # cleanup
     && rm -rf /var/lib/apt/lists/*
 
@@ -102,6 +102,7 @@ COPY ./index.php /var/www/html/index.php
 
 # Start!
 COPY ./entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["/bin/sh", "-c"]
 CMD ["entrypoint.sh"]
 
 

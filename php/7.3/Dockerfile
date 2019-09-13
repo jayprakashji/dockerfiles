@@ -61,7 +61,7 @@ RUN apt-get update -qq  \
 # Enable Apache mod_rewrite
     && a2enmod rewrite \
 # iproute - ip command
-    && apt-get install -y -qq --no-install-recommends iproute  \
+    && apt-get install -y -qq --no-install-recommends iproute2  \
 # cleanup
     && apt-get autoremove -y \
     && apt-get clean \
@@ -148,6 +148,7 @@ EXPOSE 80 443 9000
 
 # Start!
 COPY ./entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["/bin/sh", "-c"]
 CMD ["entrypoint.sh"]
 
 
