@@ -107,7 +107,7 @@ COPY ./999-php.ini /usr/local/etc/php/conf.d/
 
 ENV XDEBUG_ENABLE 1
 RUN pecl install -o -f xdebug \
-    && rm -rf /tmp/pear \
+    && rm -rf /tmp/pear
 
 COPY ./99-xdebug.ini.disabled /usr/local/etc/php/conf.d/
 
